@@ -3,18 +3,28 @@ import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import uuid from 'uuid';
 
-export class ShoppingList extends Component {
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { getItems, addItem, deleteItem } from '../store/actions/ItemActions';
+
+class ShoppingList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: [
-        { id: uuid(), name: 'milk' },
-        { id: uuid(), name: 'box' },
-        { id: uuid(), name: 'shoe' },
-        { id: uuid(), name: 'toy' }
-      ]
-    };
+    // Internal (or) Local State
+    // this.state = {
+    //   items: [
+    //     { id: uuid(), name: 'milk' },
+    //     { id: uuid(), name: 'box' },
+    //     { id: uuid(), name: 'shoe' },
+    //     { id: uuid(), name: 'toy' }
+    //   ]
+    // };
     this.addItem = this.addItem.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getItems();
   }
 
   /**
@@ -23,9 +33,10 @@ export class ShoppingList extends Component {
   addItem() {
     try {
       const name = prompt('Enter name here');
-      this.setState({
-        items: [...this.state.items, { id: uuid(), name }]
-      });
+      // this.setState({
+      //   items: [...this.state.items, { id: uuid(), name }]
+      // });
+      this.props.addItem(name);
     } catch (error) {
       throw error;
     }
@@ -39,11 +50,12 @@ export class ShoppingList extends Component {
     try {
       if (index) {
         // One way to remove an item from an array - slice method
-        this.setState({
-          items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)]
-        });
+        // this.setState({
+        //   items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)]
+        // });
         // An alternative way to remove an item from an array - filter method
         // items: this.state.items.filter(item=> item.id!==id);
+        this.props.removeItem(index);
       }
     } catch (error) {
       throw error;
@@ -51,7 +63,7 @@ export class ShoppingList extends Component {
   }
 
   render() {
-    const { items } = this.state;
+    const { items } = this.props.item;
     return (
       <Container>
         <Button color="dark" style={{ marginBottom: '2rem' }} onClick={this.addItem}>
@@ -80,3 +92,25 @@ export class ShoppingList extends Component {
     );
   }
 }
+
+ShoppingList.propTypes = {
+  item: PropTypes.object.isRequired,
+  getItems: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  item: state.item
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   getItems: function () {
+//     dispatch()
+//   }
+// });
+
+export default connect(
+  mapStateToProps,
+  { getItems, addItem, removeItem: deleteItem }
+)(ShoppingList);
