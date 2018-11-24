@@ -1,12 +1,12 @@
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM } from '../actions';
-import uuid from 'uuid';
+// import uuid from 'uuid';
 
 const initialState = {
   items: [
-    { id: uuid(), name: 'milk' },
-    { id: uuid(), name: 'box' },
-    { id: uuid(), name: 'shoe' },
-    { id: uuid(), name: 'toy' }
+    // { id: uuid(), name: 'milk' },
+    // { id: uuid(), name: 'box' },
+    // { id: uuid(), name: 'shoe' },
+    // { id: uuid(), name: 'toy' }
   ]
 };
 
@@ -15,7 +15,8 @@ export const itemReducer = (state = initialState, action) => {
     case GET_ITEMS:
       // API call to retrieve latest data
       return {
-        ...state
+        ...state,
+        items: JSON.parse(action.payload)
       };
     // break;
     case ADD_ITEM:
