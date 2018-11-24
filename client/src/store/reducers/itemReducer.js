@@ -22,13 +22,14 @@ export const itemReducer = (state = initialState, action) => {
     case ADD_ITEM:
       return {
         ...state,
-        items: [action.payload, ...state.items]
+        items: [JSON.parse(action.payload), ...state.items]
       };
     // break;
     case DELETE_ITEM:
       return {
         ...state,
-        items: [...state.items.slice(0, action.payload), ...state.items.slice(action.payload + 1)]
+        items: [...state.items.filter(item => item._id !== action.payload)]
+        // items: [...state.items.slice(0, action.payload), ...state.items.slice(action.payload + 1)]
       };
     default:
       return {

@@ -78,7 +78,7 @@ class ShoppingList extends Component {
                     color="danger"
                     size="sm"
                     className="remove-btn"
-                    onClick={() => this.removeItem(index)}
+                    onClick={() => this.removeItem(_id)}
                   >
                     &times;
                   </Button>

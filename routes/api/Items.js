@@ -14,7 +14,10 @@ router.post('/', (req, res) => {
   const newItem = new Items({
     name: req.body.name
   });
-  newItem.save().then(item => res.json(item));
+  newItem.save().then(item => {
+    console.log(item);
+    res.json(item);
+  });
 });
 
 router.delete('/:id', async (req, res) => {

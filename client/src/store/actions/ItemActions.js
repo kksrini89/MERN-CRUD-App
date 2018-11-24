@@ -23,16 +23,51 @@ export const getItems = () => dispatch => {
   // };
 };
 
-export const addItem = item => {
-  return {
-    type: ADD_ITEM,
-    payload: item
+export const addItem = item => dispatch => {
+  const url = '/api/items';
+  var reqInit = {
+    method: 'POST',
+    body: JSON.stringify(item),
+    headers: { 'Content-Type': 'application/json' }
+    // mode: 'cors',
+    // cache: 'default'
   };
+  const request = new Request(url, reqInit);
+  fetch(request)
+    .then(res => res.json())
+    .catch(err => console.log(err))
+    .then(res => {
+      const result = JSON.stringify(res);
+      console.log(result);
+      dispatch({
+        type: ADD_ITEM,
+        payload: result
+      });
+    });
+  // return {
+  //   type: ADD_ITEM,
+  //   payload: item
+  // };
 };
 
-export const deleteItem = index => {
-  return {
-    type: DELETE_ITEM,
-    payload: index
-  };
+export const deleteItem = id => dispatch => {
+  const url = `/api/items/${id}`;
+  const request = new Request(url, {
+    method: 'DELETE'
+  });
+  fetch(request)
+    .then(res => res.json())
+    .catch(err => console.log(err))
+    .then(res => {
+      const result = JSON.stringify(res);
+      console.log(result);
+      dispatch({
+        type: DELETE_ITEM,
+        payload: id
+      });
+    });
+  // return {
+  //   type: DELETE_ITEM,
+  //   payload: index
+  // };
 };
