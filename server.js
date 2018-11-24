@@ -9,7 +9,7 @@ const app = express();
 //body parser middleware
 app.use(body_parser.json());
 
-mongoose.connect(config.database);
+mongoose.connect(config.database,{useNewUrlParser:true});
 mongoose.Promise = global.Promise;
 
 mongoose.connection.on('error', err => {

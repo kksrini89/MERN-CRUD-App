@@ -21,7 +21,7 @@ export const itemReducer = (state = initialState, action) => {
     case ADD_ITEM:
       return {
         ...state,
-        items: [...state.items, { id: uuid(), name: action.payload }]
+        items: [action.payload, ...state.items]
       };
     // break;
     case DELETE_ITEM:

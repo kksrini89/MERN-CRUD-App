@@ -22,3 +22,7 @@
 }
 
 /* CSSTransition.js Classes - End */
+
+.hasError{
+  color: red;
+}
